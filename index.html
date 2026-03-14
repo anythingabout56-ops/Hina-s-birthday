@@ -3,270 +3,395 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Virtual Birthday Party</title>
+<title>Hina's Birthday Surprise</title>
+
 <style>
+
 body{
-  font-family: Arial, sans-serif;
-  text-align:center;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-  height:100vh;
-  margin:0;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+font-family:Arial;
+text-align:center;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+height:100vh;
+margin:0;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
-h1{color:#fff;font-size:40px;z-index:2}
+h1{color:white;font-size:42px}
 
 #cakeArea{
-  position:relative;
-  font-size:120px;
-  z-index:2;
-}
-
-#cake{
-  position:relative;
+position:relative;
+font-size:120px;
 }
 
 #knife{
-  position:absolute;
-  font-size:50px;
-  pointer-events:none;
-  display:none;
-  transform:translate(-50%,-50%);
-}
-
-#smoke{
-  position:absolute;
-  top:-40px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:40px;
-  opacity:0;
-}
-
-.smokeAnim{
-  animation:smokeRise 2s ease-out forwards;
-}
-
-@keyframes smokeRise{
-  0%{opacity:0; transform:translate(-50%,10px) scale(0.5);} 
-  20%{opacity:1;} 
-  100%{opacity:0; transform:translate(-50%,-60px) scale(1.3);} 
+position:absolute;
+font-size:50px;
+pointer-events:none;
+display:none;
+transform:translate(-50%,-50%);
 }
 
 #sliceLine{
-  position:absolute;
-  top:10px;
-  left:50%;
-  width:4px;
-  height:0px;
-  background:white;
-  transform:translateX(-50%);
-  display:none;
+position:absolute;
+top:10px;
+left:50%;
+width:4px;
+height:0px;
+background:white;
+transform:translateX(-50%);
+display:none;
 }
 
 #message{
-  margin-top:20px;
-  font-size:30px;
-  color:white;
-  display:none;
+margin-top:20px;
+font-size:26px;
+color:white;
+max-width:700px;
 }
 
 button{
-  margin-top:20px;
-  padding:12px 25px;
-  font-size:18px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+margin-top:20px;
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
 }
 
 canvas{
-  position:fixed;
-  top:0;
-  left:0;
-  pointer-events:none;
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+.heart{
+position:fixed;
+font-size:22px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-900px);opacity:0}
+}
+
+#gift{
+font-size:70px;
+margin-top:20px;
+cursor:pointer;
+display:none;
+}
+#hinaPhoto{
+position:absolute;
+top:15px;
+left:50%;
+transform:translateX(-50%);
+width:70px;
+height:70px;
+border-radius:50%;
+border:3px solid white;
+object-fit:cover;
+}
+
+#smoke{
+position:absolute;
+top:-40px;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+opacity:0;
+transition:opacity 0.5s;
+}
+#smoke{
+position:absolute;
+top:-40px;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+opacity:0;
+transition:opacity 0.5s;
+}
+
+#neonName{
+font-size:48px;
+font-weight:bold;
+margin-bottom:15px;
+color:#fff;
+text-shadow:
+0 0 5px #fff,
+0 0 10px #ff4da6,
+0 0 20px #ff4da6,
+0 0 40px #ff4da6,
+0 0 80px #ff4da6;
+animation:neonGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow{
+from{
+text-shadow:
+0 0 5px #fff,
+0 0 10px #ff4da6,
+0 0 20px #ff4da6,
+0 0 40px #ff4da6;
+}
+to{
+text-shadow:
+0 0 10px #fff,
+0 0 20px #ff66b2,
+0 0 40px #ff66b2,
+0 0 80px #ff66b2;
+}
 }
 </style>
 </head>
+
 <body>
 
 <canvas id="confetti"></canvas>
 
-<h1>🎉 Hina's Birthday Party 🎉</h1>
-<audio id="birthdaySong" preload="auto">
-  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mid" type="audio/midi">
+<h1>🎉 Happy Birthday Hina 🎉</h1>
+<div id="neonName">Hina ❤️ Akash</div>
+<audio id="birthdaySong">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b8fa3b33e.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" type="audio/mpeg">
 </audio>
-<h2 style="color:white;margin-top:-10px">15th March</h2>
-<div id="countdown" style="color:white;font-size:22px;margin-top:10px"></div>
+
+<h2 style="color:white">15th March</h2>
 
 <div id="cakeArea">
-  <div id="cake">🎂🕯🕯🕯</div>
-  <div id="smoke">💨💨💨</div>
-  <div id="sliceLine"></div>
+
+<img id="hinaPhoto" src="hina.jpg">
+
+<div id="cake">🎂🕯🕯🕯</div>
+
+<div id="smoke">💨💨💨</div>
+
+<div id="sliceLine"></div>
+
 </div>
 
 <div id="knife">🔪</div>
 
-<div id="message">🎊 Cake Cut! Happy Birthday! 🎊</div>
+<div id="message"></div>
 
-<button onclick="blowCandles()" id="blowBtn" style="display:none">Blow Candles</button>
-<button onclick="cutCake()" id="cutBtn" style="display:none">Cut the Cake</button>
+<div id="gift" onclick="openGift()">🎁</div>
+
+<button onclick="blowCandles()" id="blowBtn">Blow Candles</button>
+<button onclick="cutCake()" id="cutBtn">Cut Cake</button>
 
 <script>
-// countdown to 15 March (midnight IST approx)
-const countdownEl = document.getElementById("countdown");
-const targetDate = new Date("2026-03-15T00:00:00");
 
-function updateCountdown(){
- const now = new Date();
- const diff = targetDate - now;
+const cake=document.getElementById("cake")
+const knife=document.getElementById("knife")
+const sliceLine=document.getElementById("sliceLine")
+const message=document.getElementById("message")
 
- if(diff <= 0){
-   countdownEl.innerHTML = "🎉 It's Hina's Birthday! You can cut the cake now!";
-   document.getElementById("blowBtn").style.display = "inline-block";
-   document.getElementById("cutBtn").style.display = "inline-block";
-   return;
- }
+let candlesBlown=false
+let cakeCut=false
 
- const days = Math.floor(diff/(1000*60*60*24));
- const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
- const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
- const seconds = Math.floor((diff%(1000*60))/1000);
-
- countdownEl.innerHTML = `⏳ Birthday Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-const cake = document.getElementById("cake");
-const knife = document.getElementById("knife");
-const smoke = document.getElementById("smoke");
-const sliceLine = document.getElementById("sliceLine");
-
-let candlesBlown = false;
-let cakeCut = false;
-
-const cakeArea = document.getElementById("cakeArea");
+const cakeArea=document.getElementById("cakeArea")
 
 cakeArea.addEventListener("mouseenter",()=>{
- if(candlesBlown && !cakeCut) knife.style.display="block";
-});
+if(candlesBlown && !cakeCut) knife.style.display="block"
+})
 
 cakeArea.addEventListener("mouseleave",()=>{
- if(!cakeCut) knife.style.display="none";
-});
+if(!cakeCut) knife.style.display="none"
+})
 
 cakeArea.addEventListener("mousemove",(e)=>{
- knife.style.left = e.pageX+"px";
- knife.style.top = e.pageY+"px";
-});
+knife.style.left=e.pageX+"px"
+knife.style.top=e.pageY+"px"
+})
 
 function blowCandles(){
- cake.textContent = "🎂";
- candlesBlown = true;
 
- smoke.style.opacity = "1";
- smoke.classList.add("smokeAnim");
+cake.textContent="🎂"
+candlesBlown=true
 
- setTimeout(()=>{
-   smoke.style.opacity = "0";
-   smoke.classList.remove("smokeAnim");
- },2000);
+const smoke=document.getElementById("smoke")
 
- document.getElementById("cutBtn").disabled = false;
- document.getElementById("blowBtn").disabled = true;
+smoke.style.opacity="1"
+
+setTimeout(()=>{
+smoke.style.opacity="0"
+},2000)
+
 }
 
 function sliceAnimation(){
- sliceLine.style.display="block";
- let h=0;
- const interval=setInterval(()=>{
-   h+=8;
-   sliceLine.style.height=h+"px";
-   if(h>120){
-     clearInterval(interval);
-   }
- },20);
+
+sliceLine.style.display="block"
+
+let h=0
+
+const interval=setInterval(()=>{
+
+h+=8
+sliceLine.style.height=h+"px"
+
+if(h>120){
+clearInterval(interval)
 }
 
-const canvas=document.getElementById("confetti");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+},20)
 
-let confettiPieces=[];
+}
+
+function typeMessage(text){
+
+let i=0
+
+function typing(){
+
+if(i<text.length){
+
+message.innerHTML+=text.charAt(i)
+
+i++
+
+setTimeout(typing,50)
+
+}
+
+}
+
+typing()
+
+}
+
+const canvas=document.getElementById("confetti")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let confetti=[]
 
 function createConfetti(){
- for(let i=0;i<150;i++){
-  confettiPieces.push({
-   x:Math.random()*canvas.width,
-   y:Math.random()*canvas.height-canvas.height,
-   r:Math.random()*6+2,
-   d:Math.random()*50
-  });
- }
+
+for(let i=0;i<200;i++){
+
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height-canvas.height,
+r:Math.random()*6+2,
+d:Math.random()*50,
+color:`hsl(${Math.random()*360},100%,50%)`
+})
+
+}
+
 }
 
 function drawConfetti(){
- ctx.clearRect(0,0,canvas.width,canvas.height);
- ctx.fillStyle="white";
- ctx.beginPath();
 
- for(let i=0;i<confettiPieces.length;i++){
-  let p=confettiPieces[i];
-  ctx.moveTo(p.x,p.y);
-  ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
- }
+ctx.clearRect(0,0,canvas.width,canvas.height)
 
- ctx.fill();
- updateConfetti();
+for(let i=0;i<confetti.length;i++){
+
+let p=confetti[i]
+
+ctx.beginPath()
+ctx.fillStyle=p.color
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+ctx.fill()
+
 }
 
-let angle=0;
+updateConfetti()
+
+}
+
+let angle=0
 
 function updateConfetti(){
- angle+=0.01;
 
- for(let i=0;i<confettiPieces.length;i++){
-  let p=confettiPieces[i];
-  p.y+=Math.cos(angle+p.d)+2+p.r/2;
-  p.x+=Math.sin(angle);
+angle+=0.01
 
-  if(p.y>canvas.height){
-   p.y=-10;
-   p.x=Math.random()*canvas.width;
-  }
- }
+for(let i=0;i<confetti.length;i++){
+
+let p=confetti[i]
+
+p.y+=Math.cos(angle+p.d)+2+p.r/2
+p.x+=Math.sin(angle)
+
+if(p.y>canvas.height){
+
+p.y=-10
+p.x=Math.random()*canvas.width
+
+}
+
+}
+
 }
 
 function animateConfetti(){
- drawConfetti();
- requestAnimationFrame(animateConfetti);
+drawConfetti()
+requestAnimationFrame(animateConfetti)
+}
+
+function floatingHearts(){
+
+setInterval(()=>{
+
+const heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="💖"
+
+heart.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},6000)
+
+},500)
+
 }
 
 function cutCake(){
- if(!candlesBlown) return;
 
- cakeCut=true;
- knife.style.display="none";
+if(!candlesBlown) return
 
- sliceAnimation();
+cakeCut=true
 
- setTimeout(()=>{
-   cake.textContent="🍰";
+knife.style.display="none"
 
-   document.getElementById("message").style.display="block";
+sliceAnimation()
 
-   document.getElementById('birthdaySong').play();
+setTimeout(()=>{
 
-   createConfetti();
-   animateConfetti();
- },800);
+cake.textContent="🍰"
+
+document.getElementById("birthdaySong").play()
+
+createConfetti()
+animateConfetti()
+
+floatingHearts()
+
+document.getElementById("gift").style.display="block"
+
+},800)
+
+}
+
+function openGift(){
+
+document.getElementById("gift").innerHTML="🎊"
+
+typeMessage(`It's your special birthday Battuu 🥳🥳
+and your day🎊🎊 , celebrate it with open heart without any guilt or tension, peacefully and happily. May the universe bring prosperity in your life. 
+Happy birthday baby😁 , I love you ❤️❤️😘`)
+
 }
 
 </script>
